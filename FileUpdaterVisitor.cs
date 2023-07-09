@@ -1,35 +1,70 @@
 using System;
 using System.IO;
 
-
+/// <summary>
+/// The Visitor according to visitor pattern, to update the Registrations of FileUpdater
+/// </summary>
 public class FileUpdaterVisitor
 {
-    private string pathToTempDownloadLocation;
+    private string pathToTempDownloadFolder;
+    private static int tempFileNr = 0;
+    private static DirectoryInfo tempDir = null;
 
-    public FileUpdaterVisitor(string pathToTempDownloadLocation)
+    public FileUpdaterVisitor(string pathToTempDownloadFolder)
     {
-        this.pathToTempDownloadLocation = pathToTempDownloadLocation;
+        this.pathToTempDownloadFolder = pathToTempDownloadFolder;
+    }
+
+    public void CleanUp()
+    {
+        tempDir.Delete(true);
     }
 
 
     // =============== The list of visit methods ===============
 
-    public async void visit(UrlToLocalFileRegistration element)
+    /// <summary>
+    /// Updates the files in the Registration from the given URL to the given Location 
+    /// </summary>
+    /// <param name="registration"></param> Registration to be updated
+    public async void visit(UrlToLocalFileRegistration registration)
     {
-        FileStream fs = await WebDownloader.DownloadToLocationAsync(element.URL, this.pathToTempDownloadLocation);
-        var serverFileInfo = new FileInfo(pathToTempDownloadLocation);
-        var localFileInfo = new FileInfo(element.Location);
+        // Still inside linear thread code
+        tempFileNr++;
 
-        if (serverFileInfo.LastWriteTime > localFileInfo.LastWriteTime)
-        {
-            localFileInfo.Delete();
-            serverFileInfo.CopyTo(element.Location);
-            Console.WriteLine("File updated! New " + element.Location);
+        FileInfo serverFileInfo = null;
+        FileInfo localFileInfo = null;
 
-        }
-        else // File still up to date
+        // Create tempDir if not existent
+        if (tempDir == null)
         {
-            localFileInfo.Delete();
+            tempDir = Directory.CreateDirectory(this.pathToTempDownloadFolder);
         }
+
+        try
+        {
+            // Download file
+            string tempFileLocation = "temp" + tempFileNr + ".file";
+            FileStream fs = await WebDownloader.DownloadToLocationAsync(registration.URL, this.pathToTempDownloadFolder + tempFileLocation);
+
+            // Compare files
+            serverFileInfo = new FileInfo(pathToTempDownloadFolder + tempFileLocation);
+            localFileInfo = new FileInfo(registration.Location);
+
+            if (serverFileInfo.CreationTime > localFileInfo.CreationTime)
+            {
+                //localFileInfo.Delete();
+                serverFileInfo.CopyTo(registration.Location, true); // true == overwrite 
+                Console.WriteLine("File updated! New " + registration.Location);
+
+            } // else do nothing
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(" Update failed - " + e.ToString());
+        }
+
+        // Cleanup for folders intended for end of FileUpdater.Update()
+        // Files are overwritten and thus need no clean up
     }
 }

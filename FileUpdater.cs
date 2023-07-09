@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 
-
 /// <summary>
 /// Updates files from registered URLs to a location designated when registering the file.
 /// It is NOT optimized for huge amounts of files.
@@ -32,5 +31,10 @@ public class FileUpdater
         {
             registration.accept(FUVisitor);
         }
+
+        // Clean up after updates
+        // Currently deletes the directory while they're used by the OS to execute the updates
+        // Not finished, as I do not have the time to fix this and it is optional for functionality
+        //FUVisitor.CleanUp();
     }
 }

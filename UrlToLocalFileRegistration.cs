@@ -1,4 +1,4 @@
-
+using System;
 
 /// <summary>
 /// Data object to represent a file location locally that should be updated from a given URL
