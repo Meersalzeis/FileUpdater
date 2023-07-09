@@ -1,9 +1,8 @@
 using System;
 using System.IO;
 
-namespace KaiFileUpdater;
 
-class FileUpdaterVisitor
+public class FileUpdaterVisitor
 {
     private string pathToTempDownloadLocation;
 
@@ -15,20 +14,22 @@ class FileUpdaterVisitor
 
     // =============== The list of visit methods ===============
 
-    public void visit(urlToLocalFileRegistration element)
+    public async void visit(UrlToLocalFileRegistration element)
     {
-        FileStream fs = WebDownLoader.DownloadToLocation(element.URL, pathTempDownloadLocation);
-        fs.
+        FileStream fs = await WebDownloader.DownloadToLocationAsync(element.URL, this.pathToTempDownloadLocation);
+        var serverFileInfo = new FileInfo(pathToTempDownloadLocation);
+        var localFileInfo = new FileInfo(element.Location);
 
-        if (element.URL != null)
+        if (serverFileInfo.LastWriteTime > localFileInfo.LastWriteTime)
         {
-            // TODO replace file
-            Console.WriteLine("File at " + " updated." );
+            localFileInfo.Delete();
+            serverFileInfo.CopyTo(element.Location);
+            Console.WriteLine("File updated! New " + element.Location);
 
         }
         else // File still up to date
         {
-            // TODO Delete File in temp
+            localFileInfo.Delete();
         }
     }
 }

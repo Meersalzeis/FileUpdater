@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 
-namespace KaiFileUpdater;
 
 /// <summary>
 /// Updates files from registered URLs to a location designated when registering the file.
@@ -10,6 +9,12 @@ namespace KaiFileUpdater;
 public class FileUpdater
 {
     private List<FileUpdaterRegistration> filesToUpdate = new List<FileUpdaterRegistration>();
+    FileUpdaterVisitor FUVisitor;
+
+    public FileUpdater(string temporaryDownloadLocation)
+    {
+        FUVisitor = new FileUpdaterVisitor(temporaryDownloadLocation);
+    }
 
     public void RegisterFile(FileUpdaterRegistration newRegistration) 
     {
@@ -23,7 +28,6 @@ public class FileUpdater
     
     public void Update()
     {
-        FileUpdaterVisitor FUVisitor = new FileUpdaterVisitor();
         foreach (var registration in filesToUpdate)
         {
             registration.accept(FUVisitor);

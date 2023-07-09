@@ -1,0 +1,8 @@
+C:\Users\ameth\Documents\Codes\FuerBewerbungen\Eignungstest_AWP_KaiRichter\obj\Debug\Eignungstest_AWP_KaiRichter.csproj.AssemblyReference.cache
+C:\Users\ameth\Documents\Codes\FuerBewerbungen\Eignungstest_AWP_KaiRichter\obj\Debug\Eignungstest_AWP_KaiRichter.csproj.SuggestedBindingRedirects.cache
+C:\Users\ameth\Documents\Codes\FuerBewerbungen\Eignungstest_AWP_KaiRichter\obj\Debug\Eignungstest_AWP_KaiRichter.csproj.CoreCompileInputs.cache
+C:\Users\ameth\Documents\Codes\FuerBewerbungen\Eignungstest_AWP_KaiRichter\bin\Debug\TryOutThings.exe.config
+C:\Users\ameth\Documents\Codes\FuerBewerbungen\Eignungstest_AWP_KaiRichter\bin\Debug\TryOutThings.exe
+C:\Users\ameth\Documents\Codes\FuerBewerbungen\Eignungstest_AWP_KaiRichter\bin\Debug\TryOutThings.pdb
+C:\Users\ameth\Documents\Codes\FuerBewerbungen\Eignungstest_AWP_KaiRichter\obj\Debug\TryOutThings.exe
+C:\Users\ameth\Documents\Codes\FuerBewerbungen\Eignungstest_AWP_KaiRichter\obj\Debug\TryOutThings.pdb

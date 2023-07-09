@@ -1,10 +1,8 @@
-namespace KaiFileUpdater;
 
 
-class FileUpdaterRegistration
+
+public abstract class FileUpdaterRegistration
 {
-	public void accept(FileUpdaterVisitor FUVisitor)
-	{
-		FUVisitor.visit(this);
-	}
+	public abstract void accept(FileUpdaterVisitor FUVisitor);
+
 }
